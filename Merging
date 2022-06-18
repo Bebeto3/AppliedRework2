@@ -1,0 +1,29 @@
+# Rename columns
+df_data_2 = df_data_2.rename(columns={'Value':'Methane emissions (kt of CO2 equivalent)'}, inplace=False)
+df_data_2 = df_data_2.drop(['Indicator Name', 'Indicator Code'], axis=1, inplace=False)
+df_data_2.head()
+# Rename columns
+df_data_3 = df_data_3.rename(columns={'Value':"CO2 emissions (kt)"}, inplace=False)
+df_data_3 = df_data_3.drop(['Indicator Name', 'Indicator Code'], axis=1, inplace=False)
+df_data_3.head()
+# Rename columns
+df_data_4 = df_data_4.rename(columns={'Value':"Population, total"}, inplace=False)
+df_data_4 = df_data_4.drop(['Indicator Name', 'Indicator Code'], axis=1, inplace=False)
+df_data_4.head()
+# Merge the respective dataframes
+df_merged = df_data_1.merge(df_data_2, on=['Country Name', 'Country Code', 'Region', 'Sub Region', 'Year'])
+df_merged = df_merged.merge(df_data_3, on=['Country Name', 'Country Code', 'Region', 'Sub Region', 'Year'])
+df_merged = df_merged.merge(df_data_4, on=['Country Name', 'Country Code', 'Region', 'Sub Region', 'Year'])
+df_merged.head()
+# Rename columns in the merged dataframe
+df_merged = df_merged.rename(columns={'Nitrous oxide emissions (thousand metric tons of CO2 equivalent)':'NO Emission', 'Methane emissions (kt of CO2 equivalent)':'Methane Emission', 'CO2 emissions (kt)':'CO2 Emission', 'Population, total':'Total Population'}, inplace=False)
+df_merged.head()
+# Extract data from year 2000 and above
+final_data = df_merged[df_merged['Year']>='2000']
+final_data.head()
+# Check for the number of rows and columns
+final_data.shape
+# Check the number of records from the respective geographical regions
+final_data['Region'].value_counts()
+# Check for missing observations
+inal_data.isnull().mean()
