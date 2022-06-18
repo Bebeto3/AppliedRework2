@@ -1,0 +1,30 @@
+# First five records
+data.head()
+data1.head()
+data2.head()
+country_list = pd.read_csv('all_countries.csv')
+country_list.head()
+data['Country Name'].nunique()
+country_list['name'].nunique()
+country_list  = country_list.rename(columns={'name':'Country Name', 'alpha-3':'Country Code', 'region':'Region', 'sub-region':'Sub Region'}, inplace=False)
+country_list = country_list[['Country Name', 'Country Code', 'Region', 'Sub Region']]
+country_list.head()
+df_data = country_list.merge(data, on=['Country Name', 'Country Code']) # Inner join both dataframes
+df_data.head()
+df_data['Country Name'].nunique()
+df_data.shape
+# Melt the dataframe to convert the year columns into a single column
+df_data_melted = df_data.melt(id_vars=['Country Name', 'Country Code', 'Region', 'Sub Region', 'Indicator Name', 'Indicator Code'], var_name='Year', value_name='Value')
+df_data_melted.head()
+# Extracting only the needed indicators from the dataframe.
+# Here, Nitrous Oxide Emissios, Methane Emission, CO2 Emission, and Total Population were selected
+df_data_1 = df_data_melted[(df_data_melted['Indicator Name'] == "Nitrous oxide emissions (thousand metric tons of CO2 equivalent)")]
+df_data_2 = df_data_melted[(df_data_melted['Indicator Name'] == "Methane emissions (kt of CO2 equivalent)")]
+df_data_3 = df_data_melted[(df_data_melted['Indicator Name'] == "CO2 emissions (kt)")]
+df_data_4 = df_data_melted[(df_data_melted['Indicator Name'] == "Population, total")]
+# Check the first five records
+df_data_1.head()
+# Rename columns
+df_data_1 = df_data_1.rename(columns={'Value':'Nitrous oxide emissions (thousand metric tons of CO2 equivalent)'}, inplace=False)
+df_data_1 = df_data_1.drop(['Indicator Name', 'Indicator Code'], axis=1, inplace=False)
+df_data_1.head()
