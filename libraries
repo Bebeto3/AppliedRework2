@@ -1,0 +1,42 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set
+
+import warnings
+warnings.filterwarnings('ignore')
+# Define a function to load in the dataset
+
+filename = 'API_19_DS2_en_csv_v2_4151283.csv'
+
+# Load the data in its' natural format
+def read_file_main(filename):
+    #colname = 'Country Code'
+    df = pd.read_csv(f'{filename}', skiprows=4,)
+    #cols = ['Country Code', 'Indicator Code', 'Indicator Name']
+    #df = df.drop(cols, axis=1)
+    return df
+
+# Load the data by droping unwanted columns and outputing only needed columns
+def read_file(filename):
+    #filename = 'API_19_DS2_en_csv_v2_4151283.csv'
+    #colname = 'Country Code'
+    df1 = pd.read_csv(f'{filename}', skiprows=4,)
+    cols = ['Country Code', 'Indicator Code', 'Indicator Name']
+    df1 = df1.drop(cols, axis=1)
+    return df1
+
+# Load the data in a pivoted order
+def read_file_transposed(filename):
+    #filename = 'API_19_DS2_en_csv_v2_4151283.csv'
+    #colname = 'Country Code'
+    df2 = pd.read_csv(f'{filename}', skiprows=4,)
+    #cols = ['Country Code', 'Indicator Code', 'Indicator Name']
+    df2 = pd.pivot_table(data, values=[col for col in data if col.startswith('1') | col.startswith('2')], columns=data['Country Name'])
+    df2 = df2.rename_axis('Year')
+    return df2
+
+data = read_file_main(filename)
+data1 = read_file(filename)
+data2 = read_file_transposed(filename)
