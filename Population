@@ -1,0 +1,39 @@
+# Drop missing observations
+final_data = final_data.dropna(subset=['NO Emission'])
+final_data.head()
+# Check for the percentage of missing observations
+final_data.isnull().mean()
+# Drop missing observations
+final_data = final_data.dropna(subset=['Total Population'])
+final_data.head()
+# Check for missing observations
+final_data.isnull().mean()
+# Check data info
+final_data.info()
+# Convert columns to float data type
+final_data['NO Emission'] = pd.to_numeric(final_data['NO Emission'], errors='coerce')
+final_data['Methane Emission'] = pd.to_numeric(final_data['Methane Emission'], errors='coerce')
+final_data['CO2 Emission'] = pd.to_numeric(final_data['CO2 Emission'], errors='coerce')
+final_data['Total Population'] = pd.to_numeric(final_data['Total Population'], errors='coerce')
+final_data.info()
+# Correlation analysis for the selected indicators
+corr = final_data.set_index('Year').corr()
+corr
+# Regression Heatmap
+sns.heatmap(corr)
+# Create a new dataframe for only the African region
+df_africa = final_data[final_data['Region']=='Africa']
+df_africa.head()
+# Grouping the data by year. Hence, the average yearly average of the respective indicators will be calculated.
+df_africa_year_grouped = df_africa[['Year', 'NO Emission', 'Methane Emission', 'CO2 Emission', 'Total Population']].groupby('Year').agg('mean')
+df_africa_year_grouped = df_africa_year_grouped.reset_index()
+df_africa_year_grouped.head()
+# Summary Statistics
+df_africa_year_grouped.describe()
+df_africa_year_grouped.plot(x="Year", y=['NO Emission', 'Methane Emission', 'CO2 Emission',], kind="bar", figsize=(10,8), title='Bar Plot of Gaseous Emissions')
+plt.legend()
+plt.show()
+df_africa_year_grouped.plot(x='Year', y='CO2 Emission', kind='scatter', figsize=(10, 5), title='Scatter Plot of CO2 Emission')
+plt.show()
+df_africa_year_grouped.plot(x='Total Population', y='CO2 Emission', kind='scatter', figsize=(10, 5), title='Scatter Plot of Population vs CO2 Emission')
+plt.show()
