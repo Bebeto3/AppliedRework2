@@ -1,0 +1,31 @@
+df_africa_year_grouped.plot(x='Total Population', y='Methane Emission', kind='scatter', figsize=(10, 5), title='Scatter Plot of Population vs Methane Emission')
+plt.show()
+df_africa_year_grouped.plot(x='Total Population', y='NO Emission', kind='scatter', figsize=(10, 5), title='Scatter Plot of Population vs Nitrous Oxide Emission')
+plt.show()
+# Grouping the data by country
+df_africa_country_grouped = df_africa[['Country Name', 'Year', 'NO Emission', 'Methane Emission', 'CO2 Emission', 'Total Population']].groupby('Country Name').agg('mean').sort_values(by='CO2 Emission', ascending=True)
+df_africa_country_grouped = df_africa_country_grouped.reset_index()
+df_africa_country_grouped.head()
+# Summary Statistics
+df_africa_country_grouped.describe()
+# Checking for the number of rows and columns
+df_africa_year_grouped.shape
+# Top 10 countries with CO2 Emission
+top_10_countries_co2 = df_africa_country_grouped.nlargest(10, 'CO2 Emission')
+top_10_countries_co2.head(10)
+# Create a dataframe for South Africa
+df_SA = final_data[final_data['Country Name']=='South Africa']
+df_SA.head()
+# Bar Plot of Gaseous Emission in South Africa
+df_SA.plot(x="Year", y=['NO Emission', 'Methane Emission', 'CO2 Emission',], kind="bar", figsize=(10,8), title='Bar Plot of Gaseous Emissions in South Africa')
+plt.legend()
+plt.show()
+# Creating another dataframe for Sao Tome and Prinipe
+df_ST = final_data[final_data['Country Name']=='Sao Tome and Principe']
+df_ST.head()
+# Summary Statistics
+df_ST.describe()
+# Bar Plot of Gaseous Emissions in Sao Tome and Principe
+df_ST.plot(x="Year", y=['NO Emission', 'Methane Emission', 'CO2 Emission',], kind="bar", figsize=(10,8), title='Bar Plot of Gaseous Emissions in Sao Tome and Principe')
+plt.legend()
+plt.show()
